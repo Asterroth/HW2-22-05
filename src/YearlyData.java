@@ -21,7 +21,7 @@ public class YearlyData {
             File file = new File(String.valueOf(path));
             String yearkey = file.getName().substring(2, 6);
             HashMap<Integer, Integer[]> dataArrMonth = new HashMap<>();
-            Integer[] dataInMonth = new Integer[2];
+            //Integer[] dataInMonth = new Integer[2];
             Integer revenue = null;
             Integer expense = null;
             Integer keyMonth = null;
@@ -41,6 +41,7 @@ public class YearlyData {
                     }
                 //}
                 if (j % 2 == 0) {
+                    Integer[] dataInMonth = new Integer[2];
                     dataInMonth[0] = revenue;
                     dataInMonth[1] = expense;
                     keyMonth = Integer.parseInt(parts[0]);
