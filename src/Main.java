@@ -1,6 +1,7 @@
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Scanner;
+import java.util.HashMap;
 
 public class Main {
     public static void main(String[] args) throws IOException {
@@ -8,26 +9,37 @@ public class Main {
         Path dataDir = Path.of("./resources/");
         DataPaths data = new DataPaths();
         YearlyData years = new YearlyData();
+        MonthlyData months = new MonthlyData();
+        Statistic statistic = new Statistic();
 
         while (true) {
             printMenu();
             switch (checkMenuInput()) {
                 case 1:
-                    System.out.println(data.listFiles(dataDir, "m"));
-                    System.out.println("Данные месячных отчетов загружены!");
+                    if (months.getMonthData(data.listFiles(dataDir, "m")).size() != 0) {
+                        System.out.println("Данные месячных отчетов загружены!");
+                    }
                     break;
                 case 2:
-                    System.out.println(years.getYearData(data.listFiles(dataDir, "y")));
-                    System.out.println("Данные годового отчета загружены!");
+                    if (years.getYearData(data.listFiles(dataDir, "y")).size() != 0) {
+                        System.out.println("Данные годового отчета загружены!");
+                    }
                     break;
                 case 3:
                     System.out.println("Данные не загружены. Выберите п. №1 и п. №2 меню.");
                     break;
                 case 4:
-                    System.out.println("Данные не загружены. Выберите \"1 - Считать все месячные отчеты\"");
+                    HashMap<String, HashMap<String, Integer>> dataMonths = months.getMonthData(data.listFiles(dataDir, "m"));
+                    for (String period : dataMonths.keySet()) {
+                        System.out.println("По данным отчета за " + period);
+                        statistic.getMaxOfRevenue(dataMonths.get(period));
+                        statistic.getMaxOfExpense(dataMonths.get(period));
+                    }
+                    //System.out.println("Данные не загружены. Выберите \"1 - Считать все месячные отчеты\"");
                     break;
                 case 5:
-                    System.out.println("Данные не загружены. Выберите \"2 - Считать годовой отчет\"");
+                    Statistic.getProfitOrLoss(years.getYearData(data.listFiles(dataDir, "y")));
+                    //System.out.println("Данные не загружены. Выберите \"2 - Считать годовой отчет\"");
                     break;
                 case 0:
                     System.out.println("Программа завершена.");
